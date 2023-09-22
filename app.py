@@ -89,3 +89,4 @@ def classify():
     # print(predictions)
     # print(type(predictions))
     return (predictions.tolist())
+app.run(debug=True, port=10000, host='0.0.0.0')
