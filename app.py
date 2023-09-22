@@ -16,13 +16,13 @@ from flask import Flask,jsonify
 from flask import request
 from flask_cors import CORS
 app = Flask(__name__)
-CORS(app)
-def allowSelfSignedHttps(allowed):
+CORS(app, support_credentials=True)
+# def allowSelfSignedHttps(allowed):
     # bypass the server certificate verification on client side
-    if allowed and not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None):
-        ssl._create_default_https_context = ssl._create_unverified_context
+    # if allowed and not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None):
+        # ssl._create_default_https_context = ssl._create_unverified_context
 
-allowSelfSignedHttps(True) # this line is needed if you use self-signed certificate in your scoring service.
+# allowSelfSignedHttps(True) # this line is needed if you use self-signed certificate in your scoring service.
 # Load the dataset (you can replace this with your dataset)
 df = pd.read_csv('./fetal_health.csv')
 X = df.drop('fetal_health', axis=1).copy()
@@ -89,4 +89,6 @@ def classify():
     # print(predictions)
     # print(type(predictions))
     return (predictions.tolist())
-app.run(debug=True, port=10000, host='0.0.0.0')
+
+if __name__ == '__main__':
+   app.run(debug = True)
